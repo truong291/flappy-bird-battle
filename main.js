@@ -38,7 +38,6 @@ document.getElementById('invite-btn').addEventListener('click', () => {
       referral_link: `https://t.me/flappybird_battle_bot?start=ref_${userId}`
     };
 
-    // Gửi dữ liệu đến bot
     window.Telegram.WebApp.sendData(JSON.stringify(referralMessage));
   } catch (error) {
     console.error('Error sending referral data:', error);
