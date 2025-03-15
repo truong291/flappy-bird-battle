@@ -5,18 +5,17 @@ const bodyParser = require('body-parser');
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token);
 
-// Tạo Express app
 const app = express();
 app.use(bodyParser.json());
 
-// Đặt webhook endpoint
 app.post(`/bot${token}`, (req, res) => {
+  console.log('Received update:', req.body); // Log để debug
   bot.processUpdate(req.body);
   res.sendStatus(200);
 });
 
-// Xử lý dữ liệu từ Mini App
 bot.on('web_app_data', (msg) => {
+  console.log('Web app data received:', msg); // Log để debug
   const chatId = msg.message.chat.id;
   const data = JSON.parse(msg.web_app_data.data);
 
@@ -34,16 +33,22 @@ bot.on('web_app_data', (msg) => {
 
     bot.sendMessage(chatId, data.text, {
       reply_markup: inlineKeyboard
+    }).then(() => {
+      console.log('Message sent successfully');
+    }).catch((error) => {
+      console.error('Error sending message:', error);
     });
   }
 });
 
-// Khởi động server
 const port = process.env.PORT || 3000;
 app.listen(port, async () => {
   console.log(`Server running on port ${port}`);
-  // Đặt webhook cho bot
   const webhookUrl = `https://${process.env.RENDER_EXTERNAL_HOSTNAME}/bot${token}`;
-  await bot.setWebHook(webhookUrl);
-  console.log(`Webhook set to ${webhookUrl}`);
+  try {
+    await bot.setWebHook(webhookUrl);
+    console.log(`Webhook set to ${webhookUrl}`);
+  } catch (error) {
+    console.error('Error setting webhook:', error);
+  }
 });
