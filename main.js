@@ -144,10 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     finalScoreDisplay.textContent = score;
   }
 
-  // Tự động chạy game khi mở Mini App
-  startGame();
-
-  // Nút TEST (chơi thử)
+  // Nút TEST (chơi khi nhấn)
   testBtn.addEventListener('click', () => {
     if (telegramInitialized) {
       window.Telegram.WebApp.showAlert('Playing in TEST mode!');

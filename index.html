@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flappy Bird Battle</title>
+  <!-- Thêm font pixel "Press Start 2P" từ Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Press Start 2P', cursive;
       background-color: #f0f0f0;
       display: flex;
       flex-direction: column;
@@ -28,7 +30,7 @@
       position: absolute;
       top: 10px;
       left: 10px;
-      font-size: 24px;
+      font-size: 16px;
       color: #fff;
       text-shadow: 2px 2px 2px #000;
     }
@@ -44,8 +46,28 @@
       border-radius: 10px;
       text-align: center;
     }
+    #game-over h2, #game-over p, #game-over button {
+      font-family: 'Press Start 2P', cursive;
+    }
+    #game-over button {
+      padding: 10px 20px;
+      font-size: 12px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    #game-over button:hover {
+      background-color: #45a049;
+    }
+    #interface-container {
+      width: 400px; /* Cùng chiều rộng với canvas */
+      text-align: center;
+      margin: 0 auto;
+    }
     #jackpot {
-      font-size: 36px;
+      font-size: 24px;
       font-weight: bold;
       color: #FFD700;
       text-shadow: 2px 2px 2px #000;
@@ -53,35 +75,39 @@
     }
     #test-btn, #tap-to-earn-btn {
       padding: 10px 20px;
-      font-size: 16px;
+      font-size: 12px;
       cursor: pointer;
       background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
       margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
     }
     #test-btn:hover, #tap-to-earn-btn:hover {
       background-color: #45a049;
     }
     #leaderboard {
       margin-top: 20px;
-      width: 300px;
-      text-align: left;
+      width: 100%;
+      text-align: center;
     }
     #leaderboard h3 {
       margin: 0 0 10px 0;
-      font-size: 20px;
+      font-size: 16px;
       color: #333;
     }
     #leaderboard-table {
       width: 100%;
       border-collapse: collapse;
+      margin: 0 auto;
     }
     #leaderboard-table th, #leaderboard-table td {
-      padding: 8px;
+      padding: 6px;
       border: 1px solid #ddd;
       text-align: center;
+      font-size: 12px;
     }
     #leaderboard-table th {
       background-color: #4CAF50;
@@ -102,23 +128,25 @@
       <button id="restart-btn">Restart</button>
     </div>
   </div>
-  <div id="jackpot">Jackpot: 100 TON</div>
-  <button id="test-btn">TEST</button>
-  <button id="tap-to-earn-btn">Tap to Earn</button>
-  <div id="leaderboard">
-    <h3>Top 5 Players</h3>
-    <table id="leaderboard-table">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Player</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody id="leaderboard-body">
-        <!-- Top 5 sẽ được thêm bằng JS -->
-      </tbody>
-    </table>
+  <div id="interface-container">
+    <div id="jackpot">Jackpot: 100 TON</div>
+    <button id="test-btn">TEST</button>
+    <button id="tap-to-earn-btn">Tap to Earn</button>
+    <div id="leaderboard">
+      <h3>Top 5 Players</h3>
+      <table id="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Top 5 sẽ được thêm bằng JS -->
+        </tbody>
+      </table>
+    </div>
   </div>
   <script src="https://unpkg.com/ton-connect-ui@latest/dist/ton-connect-ui.min.js"></script>
   <script src="main.js"></script>
