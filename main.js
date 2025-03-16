@@ -17,71 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
     user = { id: 'guest' }; // Fallback cho test
   }
 
-  // Connect TON Wallet
-  let tonConnectUI = null;
-  try {
-    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-      manifestUrl: 'https://flappy-bird-battle.vercel.app/tonconnect-manifest.json'
-    });
-  } catch (error) {
-    console.error('Failed to initialize TON Connect UI:', error);
-  }
-
-  document.getElementById('connect-wallet-btn').addEventListener('click', async () => {
-    if (!tonConnectUI) {
-      window.alert('TON Connect UI not initialized.');
-      return;
-    }
-    try {
-      const wallet = await tonConnectUI.connectWallet();
-      if (telegramInitialized) {
-        window.Telegram.WebApp.showAlert(`Connected: ${wallet.account.address}`);
-      } else {
-        window.alert(`Connected: ${wallet.account.address}`);
-      }
-    } catch (error) {
-      console.error('Connection error:', error);
-      if (telegramInitialized) {
-        window.Telegram.WebApp.showAlert('Wallet connection failed!');
-      } else {
-        window.alert('Wallet connection failed!');
-      }
-    }
-  });
-
-  document.getElementById('invite-btn').addEventListener('click', () => {
-    if (!telegramInitialized) {
-      window.alert('This feature requires Telegram environment.');
-      return;
-    }
-    try {
-      const userId = user && user.id ? user.id : 'guest';
-      const referralMessage = {
-        type: 'share',
-        text: `I've completed it in Flappy Bird Battle! It's your time to shine. Airdrops at your fingertips—just press play!`,
-        button_text: 'Open Game',
-        referral_link: `https://t.me/flappybird_battle_bot?start=ref_${userId}`
-      };
-      window.Telegram.WebApp.sendData(JSON.stringify(referralMessage));
-    } catch (error) {
-      console.error('Error sending referral data:', error);
-      if (telegramInitialized) {
-        window.Telegram.WebApp.showAlert('Failed to initiate share. Please try again.');
-      } else {
-        window.alert('Failed to initiate share. Please try again.');
-      }
-    }
-  });
-
   // Flappy Bird Game
   const canvas = document.getElementById('game-canvas');
   const ctx = canvas.getContext('2d');
-  const menu = document.getElementById('menu');
-  const gameContainer = document.getElement ofId('game-container');
+  const gameContainer = document.getElementById('game-container');
   const scoreDisplay = document.getElementById('score');
   const gameOverScreen = document.getElementById('game-over');
   const finalScoreDisplay = document.getElementById('final-score');
   const restartBtn = document.getElementById('restart-btn');
+  const testBtn = document.getElementById('test-btn');
+  const tapToEarnBtn = document.getElementById('tap-to-earn-btn');
+  const leaderboardBody = document.getElementById('leaderboard-body');
 
   if (!canvas || !ctx) {
     console.error('Canvas or context not found');
@@ -97,9 +43,27 @@ document.addEventListener('DOMContentLoaded', () => {
   let score = 0;
   let gameRunning = false;
 
+  // Hiển thị Top 5 (giả lập dữ liệu)
+  const topPlayers = [
+    { name: 'Player1', score: 50 },
+    { name: 'Player2', score: 45 },
+    { name: 'Player3', score: 40 },
+    { name: 'Player4', score: 35 },
+    { name: 'Player5', score: 30 }
+  ];
+
+  topPlayers.forEach((player, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${player.name}</td>
+      <td>${player.score}</td>
+    `;
+    leaderboardBody.appendChild(row);
+  });
+
   function startGame() {
     if (!gameRunning) {
-      menu.style.display = 'none';
       gameContainer.style.display = 'block';
       gameRunning = true;
       bird.y = 300;
@@ -180,13 +144,26 @@ document.addEventListener('DOMContentLoaded', () => {
     finalScoreDisplay.textContent = score;
   }
 
-  document.getElementById('play-btn').addEventListener('click', () => {
+  // Tự động chạy game khi mở Mini App
+  startGame();
+
+  // Nút TEST (chơi thử)
+  testBtn.addEventListener('click', () => {
     if (telegramInitialized) {
-      window.Telegram.WebApp.showAlert('Welcome to Flappy Bird Battle!');
+      window.Telegram.WebApp.showAlert('Playing in TEST mode!');
     } else {
-      window.alert('Welcome to Flappy Bird Battle!');
+      window.alert('Playing in TEST mode!');
     }
     startGame();
+  });
+
+  // Nút Tap to Earn (chưa có logic, tạm thời alert)
+  tapToEarnBtn.addEventListener('click', () => {
+    if (telegramInitialized) {
+      window.Telegram.WebApp.showAlert('Tap to Earn feature coming soon!');
+    } else {
+      window.alert('Tap to Earn feature coming soon!');
+    }
   });
 
   canvas.addEventListener('click', () => {

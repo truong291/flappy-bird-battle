@@ -16,12 +16,9 @@
       height: 100vh;
       text-align: center;
     }
-    h1 {
-      color: #333;
-    }
     #game-container {
-      display: none;
       position: relative;
+      margin-bottom: 20px;
     }
     #game-canvas {
       border: 2px solid #333;
@@ -47,12 +44,14 @@
       border-radius: 10px;
       text-align: center;
     }
-    #menu {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    #jackpot {
+      font-size: 36px;
+      font-weight: bold;
+      color: #FFD700;
+      text-shadow: 2px 2px 2px #000;
+      margin: 10px 0;
     }
-    button {
+    #test-btn, #tap-to-earn-btn {
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
@@ -60,19 +59,40 @@
       color: white;
       border: none;
       border-radius: 5px;
+      margin: 5px 0;
     }
-    button:hover {
+    #test-btn:hover, #tap-to-earn-btn:hover {
       background-color: #45a049;
+    }
+    #leaderboard {
+      margin-top: 20px;
+      width: 300px;
+      text-align: left;
+    }
+    #leaderboard h3 {
+      margin: 0 0 10px 0;
+      font-size: 20px;
+      color: #333;
+    }
+    #leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #leaderboard-table th, #leaderboard-table td {
+      padding: 8px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    #leaderboard-table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    #leaderboard-table td {
+      background-color: #fff;
     }
   </style>
 </head>
 <body>
-  <h1>Flappy Bird Battle</h1>
-  <div id="menu">
-    <button id="connect-wallet-btn">Connect TON Wallet</button>
-    <button id="play-btn">Play Now (~0.5 TON)</button>
-    <button id="invite-btn">Invite Friends</button>
-  </div>
   <div id="game-container">
     <div id="score">Score: 0</div>
     <canvas id="game-canvas" width="400" height="600"></canvas>
@@ -81,6 +101,24 @@
       <p>Score: <span id="final-score">0</span></p>
       <button id="restart-btn">Restart</button>
     </div>
+  </div>
+  <div id="jackpot">Jackpot: 100 TON</div>
+  <button id="test-btn">TEST</button>
+  <button id="tap-to-earn-btn">Tap to Earn</button>
+  <div id="leaderboard">
+    <h3>Top 5 Players</h3>
+    <table id="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <!-- Top 5 sẽ được thêm bằng JS -->
+      </tbody>
+    </table>
   </div>
   <script src="https://unpkg.com/ton-connect-ui@latest/dist/ton-connect-ui.min.js"></script>
   <script src="main.js"></script>
