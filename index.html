@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flappy Bird Battle</title>
-  <!-- Thêm font pixel "Press Start 2P" từ Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     body {
@@ -24,7 +23,8 @@
     }
     #game-canvas {
       border: 2px solid #333;
-      background-color: #87CEEB;
+      background-image: url('bg.png');
+      background-size: cover;
     }
     #score {
       position: absolute;
@@ -62,7 +62,7 @@
       background-color: #45a049;
     }
     #interface-container {
-      width: 400px; /* Cùng chiều rộng với canvas */
+      width: 400px;
       text-align: center;
       margin: 0 auto;
     }
@@ -148,6 +148,9 @@
       </table>
     </div>
   </div>
+  <!-- Tải âm thanh -->
+  <audio id="fly-sound" src="fly.mp3"></audio>
+  <audio id="score-sound" src="score.mp3"></audio>
   <script src="https://unpkg.com/ton-connect-ui@latest/dist/ton-connect-ui.min.js"></script>
   <script src="main.js"></script>
 </body>

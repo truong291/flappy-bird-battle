@@ -28,15 +28,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const testBtn = document.getElementById('test-btn');
   const tapToEarnBtn = document.getElementById('tap-to-earn-btn');
   const leaderboardBody = document.getElementById('leaderboard-body');
+  const flySound = document.getElementById('fly-sound');
+  const scoreSound = document.getElementById('score-sound');
 
   if (!canvas || !ctx) {
     console.error('Canvas or context not found');
     return;
   }
 
-  let bird = { x: 100, y: 300, width: 30, height: 30, velocity: 0, gravity: 0.5, jump: -10 };
+  // Tải hình ảnh
+  const bgImage = new Image();
+  bgImage.src = 'bg.png';
+  const birdImage = new Image();
+  birdImage.src = 'bird.png';
+  const pipeNorthImage = new Image();
+  pipeNorthImage.src = 'pipeNorth.png';
+  const pipeSouthImage = new Image();
+  pipeSouthImage.src = 'pipeSouth.png';
+
+  let bird = { x: 100, y: 300, width: 34, height: 24, velocity: 0, gravity: 0.5, jump: -10 }; // Điều chỉnh kích thước dựa trên bird.png
   let pipes = [];
-  let pipeWidth = 30;
+  let pipeWidth = 52; // Điều chỉnh kích thước dựa trên pipeNorth.png
   let pipeGap = 150;
   let pipeFrequency = 90;
   let frameCount = 0;
@@ -80,15 +92,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function gameLoop() {
     if (!gameRunning) return;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Vẽ hình nền
+    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
     // Update bird
     bird.velocity += bird.gravity;
     bird.y += bird.velocity;
 
-    // Draw bird
-    ctx.fillStyle = 'yellow';
-    ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+    // Vẽ bird
+    ctx.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height);
 
     // Generate pipes
     if (frameCount % pipeFrequency === 0) {
@@ -105,9 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
       let pipe = pipes[i];
       pipe.x -= 2;
 
-      ctx.fillStyle = 'green';
-      ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight);
-      ctx.fillRect(pipe.x, canvas.height - pipe.bottomHeight, pipeWidth, pipe.bottomHeight);
+      // Vẽ pipeNorth
+      ctx.drawImage(pipeNorthImage, pipe.x, 0, pipeWidth, pipe.topHeight);
+      // Vẽ pipeSouth
+      ctx.drawImage(pipeSouthImage, pipe.x, canvas.height - pipe.bottomHeight, pipeWidth, pipe.bottomHeight);
 
       if (
         bird.x + bird.width > pipe.x &&
@@ -121,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (bird.x > pipe.x + pipeWidth && !pipe.passed) {
         score++;
         scoreDisplay.textContent = `Score: ${score}`;
+        scoreSound.play(); // Phát âm thanh khi ghi điểm
         pipe.passed = true;
       }
 
@@ -166,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
   canvas.addEventListener('click', () => {
     if (gameRunning) {
       bird.velocity = bird.jump;
+      flySound.play(); // Phát âm thanh khi nhảy
     }
   });
 
