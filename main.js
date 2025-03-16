@@ -1,29 +1,59 @@
-// Initialize Telegram WebApp
 document.addEventListener('DOMContentLoaded', () => {
-  if (!window.Telegram || !window.Telegram.WebApp) {
-    console.error('Telegram WebApp not initialized');
-    return;
+  let user = null;
+  let telegramInitialized = false;
+
+  // Kiểm tra môi trường Telegram
+  try {
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      user = window.Telegram.WebApp.initDataUnsafe.user;
+      telegramInitialized = true;
+      console.log('User:', user ? user : 'No user data');
+    } else {
+      throw new Error('Telegram WebApp not initialized');
+    }
+  } catch (error) {
+    console.error(error.message);
+    user = { id: 'guest' }; // Fallback cho test
   }
-  window.Telegram.WebApp.ready();
-  const user = window.Telegram.WebApp.initDataUnsafe.user;
-  console.log('User:', user ? user : 'No user data');
 
   // Connect TON Wallet
-  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: 'https://flappy-bird-battle.vercel.app/tonconnect-manifest.json'
-  });
+  let tonConnectUI = null;
+  try {
+    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: 'https://flappy-bird-battle.vercel.app/tonconnect-manifest.json'
+    });
+  } catch (error) {
+    console.error('Failed to initialize TON Connect UI:', error);
+  }
 
   document.getElementById('connect-wallet-btn').addEventListener('click', async () => {
+    if (!tonConnectUI) {
+      window.alert('TON Connect UI not initialized.');
+      return;
+    }
     try {
       const wallet = await tonConnectUI.connectWallet();
-      window.Telegram.WebApp.showAlert(`Connected: ${wallet.account.address}`);
+      if (telegramInitialized) {
+        window.Telegram.WebApp.showAlert(`Connected: ${wallet.account.address}`);
+      } else {
+        window.alert(`Connected: ${wallet.account.address}`);
+      }
     } catch (error) {
       console.error('Connection error:', error);
-      window.Telegram.WebApp.showAlert('Wallet connection failed!');
+      if (telegramInitialized) {
+        window.Telegram.WebApp.showAlert('Wallet connection failed!');
+      } else {
+        window.alert('Wallet connection failed!');
+      }
     }
   });
 
   document.getElementById('invite-btn').addEventListener('click', () => {
+    if (!telegramInitialized) {
+      window.alert('This feature requires Telegram environment.');
+      return;
+    }
     try {
       const userId = user && user.id ? user.id : 'guest';
       const referralMessage = {
@@ -35,7 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
       window.Telegram.WebApp.sendData(JSON.stringify(referralMessage));
     } catch (error) {
       console.error('Error sending referral data:', error);
-      window.Telegram.WebApp.showAlert('Failed to initiate share. Please try again.');
+      if (telegramInitialized) {
+        window.Telegram.WebApp.showAlert('Failed to initiate share. Please try again.');
+      } else {
+        window.alert('Failed to initiate share. Please try again.');
+      }
     }
   });
 
@@ -43,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('game-canvas');
   const ctx = canvas.getContext('2d');
   const menu = document.getElementById('menu');
-  const gameContainer = document.getElementById('game-container');
+  const gameContainer = document.getElement ofId('game-container');
   const scoreDisplay = document.getElementById('score');
   const gameOverScreen = document.getElementById('game-over');
   const finalScoreDisplay = document.getElementById('final-score');
@@ -147,7 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('play-btn').addEventListener('click', () => {
-    window.Telegram.WebApp.showAlert('Welcome to Flappy Bird Battle!');
+    if (telegramInitialized) {
+      window.Telegram.WebApp.showAlert('Welcome to Flappy Bird Battle!');
+    } else {
+      window.alert('Welcome to Flappy Bird Battle!');
+    }
     startGame();
   });
 
@@ -159,6 +197,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   restartBtn.addEventListener('click', startGame);
 
-  // Debug: Log initial setup
   console.log('Game initialized');
 });
