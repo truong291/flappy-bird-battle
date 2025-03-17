@@ -46,10 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const pipeSouthImage = new Image();
   pipeSouthImage.src = 'pipeSouth.png';
 
-  let bird = { x: 100, y: 300, width: 34, height: 24, velocity: 0, gravity: 0.5, jump: -10 }; // Điều chỉnh kích thước dựa trên bird.png
+  let bird = { x: 80, y: 240, width: 27, height: 19, velocity: 0, gravity: 0.4, jump: -8 }; // Điều chỉnh cho canvas 320x480
   let pipes = [];
-  let pipeWidth = 52; // Điều chỉnh kích thước dựa trên pipeNorth.png
-  let pipeGap = 150;
+  let pipeWidth = 42; // Điều chỉnh cho canvas nhỏ hơn
+  let pipeGap = 120; // Giảm khoảng cách giữa các ống
   let pipeFrequency = 90;
   let frameCount = 0;
   let score = 0;
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!gameRunning) {
       gameContainer.style.display = 'block';
       gameRunning = true;
-      bird.y = 300;
+      bird.y = 240; // Điều chỉnh vị trí ban đầu
       bird.velocity = 0;
       pipes = [];
       score = 0;
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Generate pipes
     if (frameCount % pipeFrequency === 0) {
-      let pipeHeight = Math.random() * (canvas.height - pipeGap - 100) + 50;
+      let pipeHeight = Math.random() * (canvas.height - pipeGap - 80) + 40;
       pipes.push({
         x: canvas.width,
         topHeight: pipeHeight,
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (bird.x > pipe.x + pipeWidth && !pipe.passed) {
         score++;
         scoreDisplay.textContent = `Score: ${score}`;
-        scoreSound.play(); // Phát âm thanh khi ghi điểm
+        scoreSound.play();
         pipe.passed = true;
       }
 
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
   canvas.addEventListener('click', () => {
     if (gameRunning) {
       bird.velocity = bird.jump;
-      flySound.play(); // Phát âm thanh khi nhảy
+      flySound.play();
     }
   });
 
