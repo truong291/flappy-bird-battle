@@ -2,47 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Flappy Bird Battle</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden; /* Loại bỏ thanh cuộn */
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
       font-family: 'Press Start 2P', cursive;
       background-color: #f0f0f0;
     }
     #main-container {
+      position: relative; /* Để các thành phần con có thể định vị absolute */
+      height: 100%;
+      width: 100%;
       display: flex;
-      flex-direction: column;
-      align-items: center; /* Căn giữa theo chiều ngang */
-      justify-content: center; /* Căn giữa theo chiều dọc */
-      height: 100vh;
-      width: 100vw;
-      box-sizing: border-box;
+      justify-content: center; /* Căn giữa ngang */
+      align-items: center; /* Căn giữa dọc */
     }
     #game-container {
       position: relative;
-      margin-bottom: 10px;
+      z-index: 1; /* Đặt canvas ở lớp dưới */
     }
     #game-canvas {
       border: 2px solid #333;
       background-image: url('bg.png');
       background-size: cover;
-      width: 320px; /* Giảm kích thước canvas cho màn hình nhỏ */
+      width: 320px;
       height: 480px;
-      max-width: 100%; /* Đảm bảo không vượt quá màn hình */
+      max-width: 100%;
+      display: block;
+      margin: 0 auto;
     }
     #score {
       position: absolute;
       top: 8px;
       left: 8px;
-      font-size: 14px; /* Giảm font cho vừa canvas */
+      font-size: 14px;
       color: #fff;
       text-shadow: 1px 1px 1px #000;
+      z-index: 3; /* Đảm bảo điểm số hiển thị trên cùng */
     }
     #game-over {
       display: none;
@@ -55,9 +57,7 @@
       padding: 15px;
       border-radius: 8px;
       text-align: center;
-    }
-    #game-over h2, #game-over p, #game-over button {
-      font-family: 'Press Start 2P', cursive;
+      z-index: 3; /* Đảm bảo Game Over hiển thị trên cùng */
     }
     #game-over h2 {
       font-size: 16px;
@@ -80,16 +80,21 @@
       background-color: #45a049;
     }
     #interface-container {
+      position: absolute;
+      top: 10px; /* Đặt ở phía trên cùng của canvas */
       width: 320px; /* Cùng chiều rộng với canvas */
       text-align: center;
-      margin: 0 auto;
+      z-index: 2; /* Đặt lớp trên canvas */
     }
     #jackpot {
-      font-size: 20px; /* Giảm font để vừa màn hình */
+      font-size: 20px;
       font-weight: bold;
       color: #FFD700;
       text-shadow: 1px 1px 1px #000;
       margin: 5px 0;
+      background-color: rgba(0, 0, 0, 0.5); /* Thêm nền mờ để dễ đọc */
+      padding: 5px;
+      border-radius: 5px;
     }
     #test-btn, #tap-to-earn-btn {
       padding: 8px 16px;
@@ -110,11 +115,14 @@
       margin-top: 8px;
       width: 100%;
       text-align: center;
+      background-color: rgba(0, 0, 0, 0.5); /* Thêm nền mờ */
+      padding: 5px;
+      border-radius: 5px;
     }
     #leaderboard h3 {
       margin: 0 0 5px 0;
       font-size: 14px;
-      color: #333;
+      color: #fff;
     }
     #leaderboard-table {
       width: 100%;
@@ -126,13 +134,14 @@
       border: 1px solid #ddd;
       text-align: center;
       font-size: 10px;
+      color: #fff;
     }
     #leaderboard-table th {
       background-color: #4CAF50;
       color: white;
     }
     #leaderboard-table td {
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.1);
     }
   </style>
 </head>
