@@ -6,25 +6,33 @@
   <title>Flappy Bird Battle</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100vh; /* Đảm bảo chiều cao đầy đủ màn hình */
+      overflow: hidden; /* Loại bỏ thanh cuộn */
       font-family: 'Press Start 2P', cursive;
       background-color: #f0f0f0;
+    }
+    #main-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
+      justify-content: center; /* Căn giữa theo chiều dọc */
+      height: 100vh; /* Chiều cao đầy đủ màn hình */
+      width: 100vw; /* Chiều rộng đầy đủ màn hình */
+      box-sizing: border-box;
     }
     #game-container {
       position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 10px; /* Giảm khoảng cách dưới khung game */
     }
     #game-canvas {
       border: 2px solid #333;
       background-image: url('bg.png');
       background-size: cover;
+      width: 400px; /* Đảm bảo kích thước cố định */
+      height: 600px;
     }
     #score {
       position: absolute;
@@ -62,7 +70,7 @@
       background-color: #45a049;
     }
     #interface-container {
-      width: 400px;
+      width: 400px; /* Cùng chiều rộng với canvas */
       text-align: center;
       margin: 0 auto;
     }
@@ -71,7 +79,7 @@
       font-weight: bold;
       color: #FFD700;
       text-shadow: 2px 2px 2px #000;
-      margin: 10px 0;
+      margin: 5px 0; /* Giảm khoảng cách */
     }
     #test-btn, #tap-to-earn-btn {
       padding: 10px 20px;
@@ -89,12 +97,12 @@
       background-color: #45a049;
     }
     #leaderboard {
-      margin-top: 20px;
+      margin-top: 10px; /* Giảm khoảng cách */
       width: 100%;
       text-align: center;
     }
     #leaderboard h3 {
-      margin: 0 0 10px 0;
+      margin: 0 0 5px 0;
       font-size: 16px;
       color: #333;
     }
@@ -119,36 +127,37 @@
   </style>
 </head>
 <body>
-  <div id="game-container">
-    <div id="score">Score: 0</div>
-    <canvas id="game-canvas" width="400" height="600"></canvas>
-    <div id="game-over">
-      <h2>Game Over</h2>
-      <p>Score: <span id="final-score">0</span></p>
-      <button id="restart-btn">Restart</button>
+  <div id="main-container">
+    <div id="game-container">
+      <div id="score">Score: 0</div>
+      <canvas id="game-canvas" width="400" height="600"></canvas>
+      <div id="game-over">
+        <h2>Game Over</h2>
+        <p>Score: <span id="final-score">0</span></p>
+        <button id="restart-btn">Restart</button>
+      </div>
+    </div>
+    <div id="interface-container">
+      <div id="jackpot">Jackpot: 100 TON</div>
+      <button id="test-btn">TEST</button>
+      <button id="tap-to-earn-btn">Tap to Earn</button>
+      <div id="leaderboard">
+        <h3>Top 5 Players</h3>
+        <table id="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <!-- Top 5 sẽ được thêm bằng JS -->
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-  <div id="interface-container">
-    <div id="jackpot">Jackpot: 100 TON</div>
-    <button id="test-btn">TEST</button>
-    <button id="tap-to-earn-btn">Tap to Earn</button>
-    <div id="leaderboard">
-      <h3>Top 5 Players</h3>
-      <table id="leaderboard-table">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-          <!-- Top 5 sẽ được thêm bằng JS -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <!-- Tải âm thanh -->
   <audio id="fly-sound" src="fly.mp3"></audio>
   <audio id="score-sound" src="score.mp3"></audio>
   <script src="https://unpkg.com/ton-connect-ui@latest/dist/ton-connect-ui.min.js"></script>
