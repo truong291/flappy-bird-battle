@@ -40,10 +40,10 @@
     #score {
       position: absolute;
       top: 8px;
-      right: 8px; /* Đưa điểm số sang bên phải */
+      right: 8px;
       font-size: 14px;
       color: #fff;
-      text-shadow: 1px 1px 1px #000;
+      text-shadow: 2px 2px 4px #000;
       z-index: 3;
     }
     #game-over {
@@ -52,29 +52,31 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.7);
       color: #fff;
-      padding: 15px;
+      padding: 10px;
       border-radius: 8px;
       text-align: center;
-      z-index: 3;
+      z-index: 4; /* Đảm bảo Game Over ở trên cùng */
+      backdrop-filter: blur(5px);
     }
     #game-over h2 {
       font-size: 16px;
-      margin: 0 0 10px 0;
+      margin: 0 0 5px 0;
     }
     #game-over p {
       font-size: 12px;
-      margin: 0 0 10px 0;
+      margin: 0 0 5px 0;
     }
     #game-over button {
-      padding: 8px 16px;
+      padding: 6px 12px;
       font-size: 10px;
       cursor: pointer;
       background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
+      margin: 5px;
     }
     #game-over button:hover {
       background-color: #45a049;
@@ -90,14 +92,18 @@
       font-size: 24px;
       font-weight: bold;
       color: #fff;
-      text-shadow: 1px 1px 1px #000;
-      margin: 5px 0;
+      text-shadow: 2px 2px 4px #000;
+      margin: 10px 0;
+      background-color: rgba(0, 0, 0, 0.5); /* Giảm độ mờ */
+      padding: 5px 10px;
+      border-radius: 8px;
+      backdrop-filter: blur(5px);
     }
     #button-container {
       display: flex;
       justify-content: center;
-      gap: 10px; /* Khoảng cách giữa hai nút */
-      margin: 5px 0;
+      gap: 15px;
+      margin: 10px 0;
     }
     #test-btn, #tap-to-earn-btn {
       padding: 8px 16px;
@@ -106,32 +112,38 @@
       color: white;
       border: none;
       border-radius: 5px;
-      width: 100px; /* Đặt chiều rộng cố định cho nút */
+      width: 100px;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
     }
     #test-btn {
-      background-color: #1E90FF; /* Màu xanh dương cho TEST */
+      background-color: rgba(30, 144, 255, 0.5); /* Màu xanh dương mờ */
     }
     #tap-to-earn-btn {
-      background-color: #4CAF50; /* Màu xanh lá cho Tap to Earn */
+      background-color: rgba(76, 175, 80, 0.5); /* Màu xanh lá mờ */
     }
     #test-btn:hover {
-      background-color: #1C86EE;
+      background-color: rgba(30, 144, 255, 0.7);
     }
     #tap-to-earn-btn:hover {
-      background-color: #45a049;
+      background-color: rgba(76, 175, 80, 0.7);
     }
     #leaderboard {
       position: absolute;
-      top: 80px; /* Đặt Top 5 ở phía bên trái */
-      left: 10px;
+      top: 100px;
+      left: 20px;
       text-align: left;
       z-index: 2;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      border-radius: 8px;
+      backdrop-filter: blur(5px);
     }
     #leaderboard h3 {
       margin: 0 0 5px 0;
       font-size: 14px;
       color: #fff;
-      text-shadow: 1px 1px 1px #000;
+      text-shadow: 2px 2px 4px #000;
     }
     #leaderboard ul {
       list-style: none;
@@ -141,7 +153,7 @@
     #leaderboard li {
       font-size: 12px;
       color: #fff;
-      text-shadow: 1px 1px 1px #000;
+      text-shadow: 2px 2px 4px #000;
       margin: 5px 0;
     }
   </style>
@@ -155,6 +167,7 @@
         <h2>Game Over</h2>
         <p>Score: <span id="final-score">0</span></p>
         <button id="restart-btn">Restart</button>
+        <button id="main-btn">Main</button>
       </div>
     </div>
     <div id="interface-container">

@@ -25,9 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const gameOverScreen = document.getElementById('game-over');
   const finalScoreDisplay = document.getElementById('final-score');
   const restartBtn = document.getElementById('restart-btn');
+  const mainBtn = document.getElementById('main-btn');
   const testBtn = document.getElementById('test-btn');
   const tapToEarnBtn = document.getElementById('tap-to-earn-btn');
   const leaderboardList = document.getElementById('leaderboard-list');
+  const interfaceContainer = document.getElementById('interface-container');
   const flySound = document.getElementById('fly-sound');
   const scoreSound = document.getElementById('score-sound');
 
@@ -81,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
       frameCount = 0;
       scoreDisplay.textContent = `Score: ${score}`;
       gameOverScreen.style.display = 'none';
+      interfaceContainer.style.display = 'block'; // Hiện giao diện khi bắt đầu
       gameLoop();
     }
   }
@@ -145,15 +148,22 @@ document.addEventListener('DOMContentLoaded', () => {
     gameRunning = false;
     gameOverScreen.style.display = 'block';
     finalScoreDisplay.textContent = score;
+    interfaceContainer.style.display = 'none'; // Ẩn giao diện khi Game Over
+  }
+
+  function returnToMain() {
+    gameRunning = false;
+    gameOverScreen.style.display = 'none';
+    interfaceContainer.style.display = 'block'; // Hiện lại giao diện
+    scoreDisplay.textContent = `Score: 0`; // Reset điểm số
+    bird.y = 240; // Reset vị trí chim
+    pipes = []; // Xóa ống
+    frameCount = 0;
   }
 
   testBtn.addEventListener('click', () => {
     if (telegramInitialized) {
-      window.Telegram.WebApp.showAlert('Playing in TEST mode!');
-    } else {
-      window.alert('Playing in TEST mode!');
-    }
-    startGame();
+     startGame();
   });
 
   tapToEarnBtn.addEventListener('click', () => {
@@ -172,6 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   restartBtn.addEventListener('click', startGame);
+
+  mainBtn.addEventListener('click', returnToMain);
 
   console.log('Game initialized');
 });
