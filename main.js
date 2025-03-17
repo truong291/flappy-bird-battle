@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (error) {
     console.error(error.message);
-    user = { id: 'guest' }; // Fallback cho test
+    user = { id: 'guest' };
   }
 
   // Flappy Bird Game
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const restartBtn = document.getElementById('restart-btn');
   const testBtn = document.getElementById('test-btn');
   const tapToEarnBtn = document.getElementById('tap-to-earn-btn');
-  const leaderboardBody = document.getElementById('leaderboard-body');
+  const leaderboardList = document.getElementById('leaderboard-list');
   const flySound = document.getElementById('fly-sound');
   const scoreSound = document.getElementById('score-sound');
 
@@ -46,10 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const pipeSouthImage = new Image();
   pipeSouthImage.src = 'pipeSouth.png';
 
-  let bird = { x: 80, y: 240, width: 27, height: 19, velocity: 0, gravity: 0.4, jump: -8 }; // Điều chỉnh cho canvas 320x480
+  let bird = { x: 80, y: 240, width: 27, height: 19, velocity: 0, gravity: 0.4, jump: -8 };
   let pipes = [];
-  let pipeWidth = 42; // Điều chỉnh cho canvas nhỏ hơn
-  let pipeGap = 120; // Giảm khoảng cách giữa các ống
+  let pipeWidth = 42;
+  let pipeGap = 120;
   let pipeFrequency = 90;
   let frameCount = 0;
   let score = 0;
@@ -57,28 +57,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Hiển thị Top 5 (giả lập dữ liệu)
   const topPlayers = [
-    { name: 'Player1', score: 50 },
-    { name: 'Player2', score: 45 },
-    { name: 'Player3', score: 40 },
-    { name: 'Player4', score: 35 },
-    { name: 'Player5', score: 30 }
+    { name: 'dkkk', score: 50 },
+    { name: 'dkkk', score: 50 },
+    { name: 'dkkk', score: 50 },
+    { name: 'dkkk', score: 35 },
+    { name: 'dkkk', score: 30 }
   ];
 
   topPlayers.forEach((player, index) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${player.name}</td>
-      <td>${player.score}</td>
-    `;
-    leaderboardBody.appendChild(row);
+    const li = document.createElement('li');
+    li.textContent = `${index + 1}. ${player.name} ${player.score}`;
+    leaderboardList.appendChild(li);
   });
 
   function startGame() {
     if (!gameRunning) {
       gameContainer.style.display = 'block';
       gameRunning = true;
-      bird.y = 240; // Điều chỉnh vị trí ban đầu
+      bird.y = 240;
       bird.velocity = 0;
       pipes = [];
       score = 0;
@@ -92,17 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function gameLoop() {
     if (!gameRunning) return;
 
-    // Vẽ hình nền
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
-    // Update bird
     bird.velocity += bird.gravity;
     bird.y += bird.velocity;
 
-    // Vẽ bird
     ctx.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height);
 
-    // Generate pipes
     if (frameCount % pipeFrequency === 0) {
       let pipeHeight = Math.random() * (canvas.height - pipeGap - 80) + 40;
       pipes.push({
@@ -112,14 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Update and draw pipes
     for (let i = pipes.length - 1; i >= 0; i--) {
       let pipe = pipes[i];
       pipe.x -= 2;
 
-      // Vẽ pipeNorth
       ctx.drawImage(pipeNorthImage, pipe.x, 0, pipeWidth, pipe.topHeight);
-      // Vẽ pipeSouth
       ctx.drawImage(pipeSouthImage, pipe.x, canvas.height - pipe.bottomHeight, pipeWidth, pipe.bottomHeight);
 
       if (
@@ -158,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
     finalScoreDisplay.textContent = score;
   }
 
-  // Nút TEST (chơi khi nhấn)
   testBtn.addEventListener('click', () => {
     if (telegramInitialized) {
       window.Telegram.WebApp.showAlert('Playing in TEST mode!');
@@ -168,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
     startGame();
   });
 
-  // Nút Tap to Earn (chưa có logic, tạm thời alert)
   tapToEarnBtn.addEventListener('click', () => {
     if (telegramInitialized) {
       window.Telegram.WebApp.showAlert('Tap to Earn feature coming soon!');

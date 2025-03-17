@@ -16,16 +16,16 @@
       background-color: #f0f0f0;
     }
     #main-container {
-      position: relative; /* Để các thành phần con có thể định vị absolute */
+      position: relative;
       height: 100%;
       width: 100%;
       display: flex;
-      justify-content: center; /* Căn giữa ngang */
-      align-items: center; /* Căn giữa dọc */
+      justify-content: center;
+      align-items: center;
     }
     #game-container {
       position: relative;
-      z-index: 1; /* Đặt canvas ở lớp dưới */
+      z-index: 1;
     }
     #game-canvas {
       border: 2px solid #333;
@@ -40,11 +40,11 @@
     #score {
       position: absolute;
       top: 8px;
-      left: 8px;
+      right: 8px; /* Đưa điểm số sang bên phải */
       font-size: 14px;
       color: #fff;
       text-shadow: 1px 1px 1px #000;
-      z-index: 3; /* Đảm bảo điểm số hiển thị trên cùng */
+      z-index: 3;
     }
     #game-over {
       display: none;
@@ -57,7 +57,7 @@
       padding: 15px;
       border-radius: 8px;
       text-align: center;
-      z-index: 3; /* Đảm bảo Game Over hiển thị trên cùng */
+      z-index: 3;
     }
     #game-over h2 {
       font-size: 16px;
@@ -81,67 +81,68 @@
     }
     #interface-container {
       position: absolute;
-      top: 10px; /* Đặt ở phía trên cùng của canvas */
-      width: 320px; /* Cùng chiều rộng với canvas */
+      top: 10px;
+      width: 320px;
       text-align: center;
-      z-index: 2; /* Đặt lớp trên canvas */
+      z-index: 2;
     }
     #jackpot {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: bold;
-      color: #FFD700;
+      color: #fff;
       text-shadow: 1px 1px 1px #000;
       margin: 5px 0;
-      background-color: rgba(0, 0, 0, 0.5); /* Thêm nền mờ để dễ đọc */
-      padding: 5px;
-      border-radius: 5px;
+    }
+    #button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px; /* Khoảng cách giữa hai nút */
+      margin: 5px 0;
     }
     #test-btn, #tap-to-earn-btn {
       padding: 8px 16px;
       font-size: 10px;
       cursor: pointer;
-      background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
-      margin: 5px 0;
-      width: 100%;
-      box-sizing: border-box;
+      width: 100px; /* Đặt chiều rộng cố định cho nút */
     }
-    #test-btn:hover, #tap-to-earn-btn:hover {
+    #test-btn {
+      background-color: #1E90FF; /* Màu xanh dương cho TEST */
+    }
+    #tap-to-earn-btn {
+      background-color: #4CAF50; /* Màu xanh lá cho Tap to Earn */
+    }
+    #test-btn:hover {
+      background-color: #1C86EE;
+    }
+    #tap-to-earn-btn:hover {
       background-color: #45a049;
     }
     #leaderboard {
-      margin-top: 8px;
-      width: 100%;
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.5); /* Thêm nền mờ */
-      padding: 5px;
-      border-radius: 5px;
+      position: absolute;
+      top: 80px; /* Đặt Top 5 ở phía bên trái */
+      left: 10px;
+      text-align: left;
+      z-index: 2;
     }
     #leaderboard h3 {
       margin: 0 0 5px 0;
       font-size: 14px;
       color: #fff;
+      text-shadow: 1px 1px 1px #000;
     }
-    #leaderboard-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto;
+    #leaderboard ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
-    #leaderboard-table th, #leaderboard-table td {
-      padding: 4px;
-      border: 1px solid #ddd;
-      text-align: center;
-      font-size: 10px;
+    #leaderboard li {
+      font-size: 12px;
       color: #fff;
-    }
-    #leaderboard-table th {
-      background-color: #4CAF50;
-      color: white;
-    }
-    #leaderboard-table td {
-      background-color: rgba(255, 255, 255, 0.1);
+      text-shadow: 1px 1px 1px #000;
+      margin: 5px 0;
     }
   </style>
 </head>
@@ -157,23 +158,16 @@
       </div>
     </div>
     <div id="interface-container">
-      <div id="jackpot">Jackpot: 100 TON</div>
-      <button id="test-btn">TEST</button>
-      <button id="tap-to-earn-btn">Tap to Earn</button>
+      <div id="jackpot">JACKPOT: 100 TON</div>
+      <div id="button-container">
+        <button id="test-btn">TEST</button>
+        <button id="tap-to-earn-btn">Tap to Earn</button>
+      </div>
       <div id="leaderboard">
-        <h3>Top 5 Players</h3>
-        <table id="leaderboard-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Player</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody id="leaderboard-body">
-            <!-- Top 5 sẽ được thêm bằng JS -->
-          </tbody>
-        </table>
+        <h3>Top 5</h3>
+        <ul id="leaderboard-list">
+          <!-- Top 5 sẽ được thêm bằng JS -->
+        </ul>
       </div>
     </div>
   </div>
